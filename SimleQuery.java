@@ -6,7 +6,7 @@ import org.apache.jena.util.FileManager;
 
 public class SimleQuery {
 
-	static final String inputFileName  = "resultat2.ttl";
+	static final String inputFileName  = "res.ttl";
 	
 	public static void main (String args[]) {
 		Model model = ModelFactory.createDefaultModel();
@@ -19,7 +19,7 @@ public class SimleQuery {
 		// read the RDF/XML file
 		model.read(in, null, "Turtle");      
         
-		//Le nombre de séismes et de morts par pays
+		//Le nombre de sÃ©ismes et de morts par pays
         String queryString = "SELECT ?Country (COUNT(?Country) AS ?totalEarthsquake) (SUM(?Deaths2) AS ?totalDeaths){ "
 	    		+ "?x <http://purl.org/cerif/frapo/hasCode> ?Earthquake;"
 	    		+ "<http://dbpedia.org/ontology#locationCountry> ?Country;"
@@ -29,7 +29,7 @@ public class SimleQuery {
     			+ "GROUP BY ?Country "
     			+ "ORDER BY DESC(?totalEarthsquake) ";
 
-		//Le nombre de séisme au même épicentre
+		//Le nombre de sÃ©isme au mÃªme Ã©picentre
 /*		String queryString = "SELECT ?Latitude ?Longitude (COUNT(?Latitude) AS ?memeLieu) { "
 				+ "?x <http://purl.org/cerif/frapo/hasCode> ?Earthquake;"
 				+ "<http://www.w3.org/2003/01/geo#lat> ?Latitude;"
