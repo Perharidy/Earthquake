@@ -1,0 +1,61 @@
+PREFIX dbo: <http://dbpedia.org/ontology#>
+PREFIX nh: <http://www.w3.org/ns#>
+PREFIX geo: <http://www.w3.org/2003/01/geo#>
+PREFIX sosa: <http://www.w3.org/ns/sosa#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX frapo: <http://purl.org/cerif/frapo/>
+PREFIX dbpa: <http://dbpedia.org/page/>
+PREFIX dbpac: <http://dbpedia.org/page/Category:>
+
+CONSTRUCT {
+	?Earthquake a dbo:Earthquake;
+		frapo:hasCode ?I_D;
+		nh:flags ?FLAG_TSUNAMI;
+		dbo:Depth ?FOCAL_DEPTH;
+		sosa:Observation ?INTENSITY;
+		dbo:year ?YEAR;
+		dbo:month ?MONTH;
+		dbo:day ?DAY;
+		dbo:time ?TIME;
+		dbo:locationCountry ?COUNTRY;
+		dbo:state ?STATE;
+		dbo:location ?LOCATION_NAME;
+		geo:lat ?LATITUDE;
+		geo:long ?LONGITUDE;
+		dbo:region ?REGION_CODE;
+		dbo:numberOfDeaths ?TOTAL_DEATHS;
+		dbpa:Missing_person ?TOTAL_MISSING;
+		dbpa:Injury ?TOTAL_INJURIES;
+		dbpa:Damages ?TOTAL_DAMAGE_MILLIONS_DOLLARS;
+		dbpac:Destruction_of_buildings ?TOTAL_HOUSES_DESTROYED;
+		dbo:integer ?TOTAL_HOUSES_DAMAGED;
+}
+FROM <file:earthquake.csv>
+WHERE {
+	BIND(URI(?I_D) AS ?Earthquake)
+	BIND(xsd:string(?FLAG_TSUNAMI) AS ?Flag)
+	BIND(xsd:integer(?FOCAL_DEPTH) AS ?Focal_Depth)
+	BIND(xsd:integer(?INTENSITY) AS ?Intensity)
+	
+	BIND(xsd:integer(?YEAR) AS ?Year)
+    BIND(xsd:integer(?MONTH) AS ?Month)
+    BIND(xsd:integer(?DAY) AS ?Day)
+	
+	BIND(IF(bound(?MINUTE),?MINUTE,"null") AS ?time1)
+	BIND(IF(?time1 = "null",?HOUR,CONCAT(?HOUR, ':', ?MINUTE)) AS ?time2)
+	BIND(IF(bound(?SECOND),?SECOND,"null") AS ?time3)
+	BIND(IF(?time3 = "null",?time2,CONCAT(?time2, ':' ,?SECOND)) AS ?TIME)
+	
+	BIND(xsd:string(?COUNTRY) AS ?Country)
+	BIND(xsd:string(?STATE) AS ?State)
+	BIND(xsd:string(?LOCATION_NAME) AS ?Location_name)
+	BIND(xsd:float(?LATITUDE) AS ?Latitude)
+	BIND(xsd:float(?LONGITUDE) AS ?Longitude)
+	BIND(xsd:integer(?REGION_CODE) AS ?Region_code)
+	BIND(xsd:integer(?TOTAL_DEATHS) AS ?Deaths)
+    BIND(xsd:integer(?TOTAL_MISSING) AS ?Missing)
+    BIND(xsd:integer(?TOTAL_INJURIES) AS ?Injuries)
+    BIND(xsd:integer(?TOTAL_DAMAGE_MILLIONS_DOLLARS) AS ?Thunes)
+    BIND(xsd:integer(?TOTAL_HOUSES_DESTROYED) AS ?Destroyed_houses)
+    BIND(xsd:integer(?TOTAL_HOUSES_DAMAGED) AS ?Damaged_houses)
+}
