@@ -7,6 +7,49 @@
 @prefix nh:  <http://www.w3.org/ns#> .
 @prefix dbpac:  <http://dbpedia.org/page/Category:> .
 @prefix sosa:  <http://www.w3.org/ns/sosa#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix void: <http://rdfs.org/ns/void#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix owl: <https://www.w3.org/2002/07/owl#> .
+@prefix : <#>.
+
+:Earthquake a void:Dataset;
+		dcterms:title "Earthquake Dataset";
+		dcterms:description "RDF data extracted from National Centers For Environmental Information";
+		dcterms:license <http://www.opendatacommons.org/licenses/pddl/>;
+		void:feature <http://www.w3.org/ns/formats/Turtle> ;
+		dcterms:contributor dbpa:University_of_Nantes;
+		dcterms:publisher :Baron_Alan;
+		dcterms:publiher :Hunault_Marion;
+		dcterms:source <https://data.nodc.noaa.gov/cgi-bin/iso?id=gov.noaa.ngdc.mgg.hazards:G012153> ;
+		dcterms:created "2018-10-23"^^xsd:date;
+		dcterms:modified "2018-11-28"^^xsd:date;
+		void:dataDump <https://www.ngdc.noaa.gov/nndc/struts/results?type_0=Exact&query_0=$ID&t=101650&s=13&d=189&dfn=signif.txt>;
+		void:vocabulary <http://dbpedia.org/ontology/>;
+		void:vocabulary <http://dbpedia.org/page/>;
+		void:triples 110080;
+		void:entities 6066;
+		void:classPartition [
+			void:property dbo:day;
+			void:triples 5508;
+		];
+.
+	
+:Tsunami a void:Linkset;
+		void:target :Earthquake;
+		void:linkPredicate owl:sameAs;
+.
+			
+:Baron_Alan a foaf:Person;
+		rdfs:label "Baron Alan";
+		foaf:mbox <mailto:alan.baron@etu.univ-nantes.fr>;
+.
+	
+:Hunault_Marion a foaf:Person;
+		rdfs:label "Hunault Marion";
+		foaf:mbox <mailto:marion.hunault@etu.univ-nantes.fr>;
+.
 
 <1>     rdf:type             dbo:Earthquake ;
         frapo:hasCode        "1" ;
